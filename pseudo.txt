@@ -1,0 +1,121 @@
+Pseudocode
+
+cardList = ( *insert the txt file here* )
+
+numberOfPlayers = input "How many players?"
+
+for x to numberOfPlayers, x=1 ( 
+	user(x) = input ("Input name for player" + x)		//input names for players
+	for i to 8, i = 1 (					//take 1 each, 8 times, for each player
+		takeCardFromList [list]				//take random card from deck, removing it
+		insert takeCardFromList (handCardList(user(x))	//Put card to hand
+	
+/* At this point, all player should have 8 cards, and the rest are still in "Deck" */
+/* Also, every user(x) have a name, so if 4 players, there's a name assigned to user(1) to user (4)*/
+
+
+/* GAME  START  HERE  */
+
+currentWinner = 1 			//making sure the game start with player 1. Also, hand winners are x too.
+
+while gameWin == False: 	//this is where the game will keep on repeat turns and all
+{
+	x = currentWinner
+
+	while cardNotSupertrump = False:		//will loop if card is supertrump
+
+		display handCardList(user(x))		//ask for card input
+		chosenCard = prompt cardInput
+		if chosenCard != superTrump:
+			cardNotSupertrump = True
+		else:
+			print "Cant pick supertrump card for round start!"
+	
+	remove chosenCard from handCardList(user(x))
+	currentCard = chosenCard			//replaces current card played with card chosen
+	trumpType = prompt trumpInput			//asks user to input trump type
+		
+
+	while turnEnd == False:		//loops until someone wins a hand already
+	{
+			
+		if user(x) haveTurn == True and user(x).winGame = False:	//Making sure this player is still 'alive' in this turn and havent won the game
+		{
+			currentValue = currentCard(trumpType)	//checking the value of the card's trump type value
+	
+			display handCardList(user(x))	//show hand cards
+			while legitCard = True:		//making sure card is eligible to be used	
+			{
+				prompt cardInput			//asks for card input
+				if cardInput(trumpType) >= currentValue:	//checking if the value is bigger
+					legitCard = True			//...then it's legit
+				else if cardInput = superTrump:			//or if it's supertrump....
+					if cardInput = Geophysicist and Magnetide in handCardList(user(x)): //the instawin combo
+						prompt "Use Geophysicist with Magnetide for instawin?"
+						if yes:
+							user(x).winHand		//...if yes, instawin!
+						else: (nothing)			//...if not, nothing special happens
+
+					trumpType = superTrump(type)		//...change the trump type based on it
+					user(all) haveTurn == True		//...everyone is alive again!
+					deadUserCount = 0			//...coz no one's dead
+
+				else if cardInput(trumpType) < currentValue:	//if it's card with lower value
+					print "U twat that's a lower value"	//...then you're dumb
+				else:						//skip? or doesnt have any card?
+					user(x) haveTurn == False		//...player is 'dead' for this turn
+					deadUserCount += 1			//...counting dead players
+					takeCardFromList [list]
+					insert takeCardFromList			//...draw 1 card from deck
+
+			}		//end of player pick card
+
+
+			if handCardList(user(x)) = [empty]		//if player ran out of cards
+				user(x).winGame = True			//-THEY WON THE GAME-
+				user(x) haveTurn = False		//making sure they wont have turn anymore if they win.
+	
+			if list = (empty):	//if deck is empty, stalemate.
+				[[gameOver]]
+		
+		}	//end of player's turn
+
+		if deadUserCount = (numberOfPlayers-1):		//checking if everyone but 1 is alive
+			turnEnd = True				//if it is, then end the round!	
+
+
+	}	//round ends, who won the hand now?
+
+	for x to numberOfPlayers, x=1:			//checking who won the hand
+		if user(x) haveTurn = True:	
+			currentWinner = user(x)		//setting for the hand winner to start next turn	
+
+
+
+
+
+
+
+
+
+Pseudo for getting info from cards
+
+CardsAttribute cardInfo = new CardsAttribute
+
+
+------------
+new public static class something CardsAttribute{
+
+lineList[(line 1), (line 2),]
+
+x=1
+for i in linelist
+
+	cardDict.add (x, i)    //this way, we can call the line with the number
+	x+=1
+}
+
+public String getCleave(Int number):
+
+	line[] = cardDict(number).split(,) 	//this calls the line, and seperates the comma, put it in an array list
+	return line[2]

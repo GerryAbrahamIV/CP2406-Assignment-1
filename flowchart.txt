@@ -1,0 +1,30 @@
+Ask how many players
+Ask for names for players
+Begin game!
+
+Player gets 8 cards from deck, all unique and randomized
+Rest of the cards are inside a deck
+
+Player can see and choose whatever card they have in hand
+Then they set the trump type
+
+Moving onto next player
+Next player will have to put a card with a higher value on the trump category
+If they dont, they can skip, +1 card in hand by taking from the deck.
+If they skip, they cannot play for the turn being.
+
+If someone puts a SUPERTRUMP card:
+--and if it's Geophysicist and Magnetide, they win the hand
+-Change the trump type
+-Everyone who's *dead* is alive again
+
+Round ends when everyone is dead but one person
+
+The one person gets to start the next turn
+
+If someone's card is 0, they won and is removed from the game
+Game ends until everyone but 1 person have all card from hand removed
+OR if someone tries to draw a card but deck is empty.
+
+
+
