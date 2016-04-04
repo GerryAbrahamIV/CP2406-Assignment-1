@@ -108,14 +108,9 @@ new public static class something CardsAttribute{
 
 lineList[(line 1), (line 2),]
 
-x=1
-for i in linelist
+public String getCleave(Int number, numType):
 
-	cardDict.add (x, i)    //this way, we can call the line with the number
-	x+=1
-}
-
-public String getCleave(Int number):
+    lineList.get(number)
 
 	line[] = cardDict(number).split(,) 	//this calls the line, and seperates the comma, put it in an array list
 	return line[2]
