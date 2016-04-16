@@ -1,4 +1,3 @@
-Name,Hardness,Gravity,Cleavage,Crustal Abundance,EcoValue
 Quartz,7,2.65,poor/none,high,moderate
 Plagioclase,6.5,2.8,1 perfect/1 good,very high,moderate
 Orthoclase,6.5,2.6,1 perfect/1 good,high,moderate

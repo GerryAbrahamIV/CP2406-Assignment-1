@@ -1,7 +1,7 @@
 
 public class CardsAttribute {
 
-    String cardLine;
+    private String cardLine;
 
     public void setCardDetails(String cardLine){
         this.cardLine = cardLine;
@@ -87,6 +87,11 @@ public class CardsAttribute {
         }
 
     return value;
+    }
+
+    public String getName(){
+        String currentCardStat[] = this.cardLine.split(",");
+        return currentCardStat[0];
     }
 
 
