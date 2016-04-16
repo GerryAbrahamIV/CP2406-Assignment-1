@@ -45,10 +45,8 @@ public class Javassignment {
         boolean playerLoop = true;
         int playerNumber = 0;
 
-        String playerNumberString;                  //enter number of player
         while (playerLoop){
-            playerNumberString = JOptionPane.showInputDialog("Insert number of players from 3 - 5:");
-            playerNumber = Integer.parseInt(playerNumberString);
+            playerNumber = Integer.parseInt(JOptionPane.showInputDialog("Insert number of players from 3 - 5:"));
             if (playerNumber <= 5 && playerNumber >= 3)
                 playerLoop = false;
             else JOptionPane.showMessageDialog(null, "Wrong input");
@@ -91,7 +89,10 @@ public class Javassignment {
         String currentHandCardString = "";
         JOptionPane.showMessageDialog(null, "Game start! Player 1 goes first");
 
-        //while (gameContinue){           //loop while game is still continuing
+
+        ArrayList currentButtonChoice = new ArrayList();
+
+        while (gameContinue){           //loop while game is still continuing
 
 /* just a reference for class methods:
     Methods for players in game:                        (i is the player's number minus 1. Player 1 is 0, Player 2 is 1 etc)
@@ -107,42 +108,77 @@ public class Javassignment {
 
         dictionary for type:  Hardness = 1,   Gravity = 2,    Cleavage = 3,   Crustal Abundance = 4,  Economic Value = 5
  */
+            int tempCardChoice = 0; //temporary storage on where the card in the hand is, NOT the card's code
             int cardChoice = 0;     //get what the card's code is
             int cardChoiceValue;    //the value of the chosen card
-            String[] handCardName = new String[playerArray[currentWinner].getCardSize()];
+            String[] trumpList = {"Hardness", "Gravity", "Cleavage", "Crustal Abundance", "Economic Value"};
             int biggestCard;        //the biggest card's code
             int trumpType;          //the current card's trump type
-            int biggestCardValue;   //the biggest card's value
+            double biggestCardValue = 0;   //the biggest card's value
+
+            currentButtonChoice.clear();
 
             for (int i=0; i < playerArray[currentWinner].getCardSize();i++) {
-                currentHandCardString += ("\nCard "+ i + ": " + cardDeck[playerArray[currentWinner].getCard(i)].printCardDetail());     //to print card details
-                handCardName[i] = cardDeck[playerArray[currentWinner].getCard(i)].getName();
+                currentHandCardString += ("\nCard " + (i+1) + ": " + cardDeck[playerArray[currentWinner].getCard(i)].printCardDetail());     //to print card details
+                currentButtonChoice.add(cardDeck[playerArray[currentWinner].getCard(i)].getName());
             }
-            boolean repeatCardChoice = true;
+            tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentWinner].getName() + "\n\n" +
+                    "(Name,Hardness,Gravity,Cleavage,Crustal Abundance,Economical Value)\n" + currentHandCardString, "Input a card!",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, currentButtonChoice.toArray(), null);
+            // ^this one is to print the option pane and get input based on the position of the card^
+            cardChoice = playerArray[currentWinner].chooseCard(tempCardChoice);
 
-            while (repeatCardChoice) {
-                cardChoice = JOptionPane.showOptionDialog(null, playerArray[currentWinner].getName() + "\n\n" +
-                        "(Name,Hardness,Gravity,Cleavage,Crustal Abundance,Economical Value)\n" + currentHandCardString, "Input a card!",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, handCardName, handCardName[0]);
-                // ^this one is to print the option pane and get input based on the position of the card^
+            trumpType = JOptionPane.showOptionDialog(null, cardDeck[cardChoice].printCardDetail() +
+                    "\nPick a Trump type",  "Pick a Trump type", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, trumpList, trumpList[0]);
+            trumpType += 1;
 
-                if ((cardChoice < 0) || (cardChoice > playerArray[currentWinner].getCardSize()))  //making sure input is valid
-                    JOptionPane.showMessageDialog(null, "Invalid input!");
-                else repeatCardChoice = false;
-            }
+            biggestCard = cardChoice;
+            biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);
 
-            JOptionPane.showMessageDialog(null,playerArray[currentWinner].chooseCard(cardChoice));
+            //testing purposes
+            JOptionPane.showMessageDialog(null,cardChoice);
             JOptionPane.showMessageDialog(null, playerArray[currentWinner].getAllCard());
+            JOptionPane.showMessageDialog(null, biggestCard + ", " + biggestCardValue);
+            //end of test
 
-            biggestCard = playerArray[currentWinner].chooseCard(cardChoice);
-            //biggestCardValue = cardDeck[biggestCard].getCardAttributeValue();
-
-
-
+            boolean turnContinues = true;
 
 
+            int currentPlayer = currentWinner;
+            while (turnContinues){          // core gameplay. Loop while more than 1 is alive
+                currentPlayer += 1;
+                boolean checkingPlayer = true;
+                while (checkingPlayer){                                             //making sure players arent already eliminated or out of list
+                    if (currentPlayer == (playerNumber)){
+                        currentPlayer = 0;
+                        System.out.println("Back to 0");}
+                    else if (playerArray[currentPlayer].getEliminated())
+                        currentPlayer += 1;
+                    else
+                        checkingPlayer = false;
+                }
+                currentButtonChoice.clear();
 
-        //}
+                currentHandCardString = "";
+                for (int i=0; i < playerArray[currentPlayer].getCardSize();i++) {
+                    currentHandCardString += ("\nCard "+ (i+1) + ": " + cardDeck[playerArray[currentPlayer].getCard(i)].printCardDetail());     //to print card details
+                    currentButtonChoice.add(cardDeck[playerArray[currentPlayer].getCard(i)].getName());
+                }
+
+                JOptionPane.showMessageDialog(null, playerArray[currentPlayer].getName() + "'s turn.");
+
+                tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentPlayer].getName() + "\n\n" +
+                                "(Name,Hardness,Gravity,Cleavage,Crustal Abundance,Economical Value)\n" + currentHandCardString, "Input a card!",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, currentButtonChoice.toArray(), null);
+                // ^this one is to print the option pane and get input based on the position of the card^
+                cardChoice = playerArray[currentPlayer].chooseCard(tempCardChoice);
+                System.out.print("\n" + currentPlayer);
+
+
+        }
+
+
+        }
 
 
     }   //end of public static void

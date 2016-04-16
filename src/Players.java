@@ -1,8 +1,16 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Players {
         private String name;
         private ArrayList<Integer> handCard = new ArrayList<>();
+        private boolean eliminated = false;
+        ArrayList nameList = new ArrayList();
+
+    public Players(){
+
+        this.eliminated = false;
+    }
 
     public void setName(String name){       //set player name
         this.name = name;
@@ -33,9 +41,17 @@ public class Players {
         return chosenCard;
     }
 
-    public Integer getCardSize(){
-
+    public Integer getCardSize(){                   //return the number of cards in the hand
         return this.handCard.size();
     }
+
+    public void setEliminated(boolean truefalse){   //set if the player can still play in the round.
+        this.eliminated = truefalse;
+    }
+
+    public boolean getEliminated(){                 //checks if the player already cannot go anymore
+        return this.eliminated;
+    }
+
 
 }
