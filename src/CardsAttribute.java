@@ -93,15 +93,7 @@ public class CardsAttribute {
         String currentCardStat[] = this.cardLine.split(",");
         return currentCardStat[0];
     }
-
-
-
-
-
-
-
-
-        }
+}
 
 
 

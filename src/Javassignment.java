@@ -7,7 +7,7 @@ public class Javassignment {
 
     public static void main(String[] args) {
 
-        CardsAttribute[] cardDeck = new CardsAttribute[54];         //create a deck, 54 is the number of cards
+        SuperTrumps[] cardDeck = new SuperTrumps[60];         //create a deck, 54 is the number of cards
 
         List<String> cardList = new ArrayList<>();                  //contains the lines of the card.txt
         ArrayList<Integer> deckCode = new ArrayList<>();     //the deck, contains card code from 0-53 so far
@@ -22,16 +22,26 @@ public class Javassignment {
             {
                 String currentCardStat[] = cardLines[i].split(",");     //
                 // Name = 0,    Hardness = 1,   Gravity = 2,    Cleavage = 3,   Crustal Abundance = 4,  EcoValue = 5
-                System.out.println("Name: " + currentCardStat[0] + ", Hardness: " + currentCardStat[1] + ", Gravity: " + currentCardStat[2]+ ", Cleavage: " + currentCardStat[3]); //testing
+                System.out.println("Name: " + currentCardStat[0] + ", Hardness: " + currentCardStat[1] + ", Gravity: " + currentCardStat[2]+ ", Cleavage: " + currentCardStat[3]
+                    + ", Crustal Abundance: " + currentCardStat[4] + ", Economic Value: " + currentCardStat[5]); //testing
 
                 cardList.add(cardLines[i]);
                 deckCode.add(i);
 
-                cardDeck[i] = new CardsAttribute();                     //add cards as object
+                cardDeck[i] = new SuperTrumps();                     //add cards as object
                 cardDeck[i].setCardDetails(cardLines[i]);               //set the card's line attributes inside the card
-
             }
 
+            for (int i = 54; i<60;i++){
+                deckCode.add(i);
+                cardDeck[i] = new SuperTrumps();
+            }
+            cardDeck[54].setTrumpDesc("The Geminologist: Changes trump category into Hardness. Re-adds eliminated player too.");
+            cardDeck[55].setTrumpDesc("The Geophysicst: Changes trump category into Specific Gravity, or throw Magnetite together to instantly wins round. Re-adds eliminated player too.");
+            cardDeck[56].setTrumpDesc("The Mineralogist: Changes trump category into Cleavage. Re-adds eliminated player too.");
+            cardDeck[57].setTrumpDesc("The Petrologist: Changes trump category into Crustal Abundance. Re-adds eliminated player too.");
+            cardDeck[58].setTrumpDesc("The Miner: Changes trump category into Economic Value. Re-adds eliminated player too.");
+            cardDeck[59].setTrumpDesc("The Geologist: Changes trump category into a category of your choice. Re-adds eliminated player too.");
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -94,6 +104,10 @@ public class Javassignment {
 
         while (gameContinue){           //loop while game is still continuing
 
+            for (int i = 0; i < playerNumber;i++){
+                playerArray[i].setEliminated(false);        //making sure everyone is alive at the start of the round
+            }
+
 /* just a reference for class methods:
     Methods for players in game:                        (i is the player's number minus 1. Player 1 is 0, Player 2 is 1 etc)
         playerArray[i].getName()                        return player's name in string
@@ -115,11 +129,14 @@ public class Javassignment {
             int biggestCard;        //the biggest card's code
             int trumpType;          //the current card's trump type
             double biggestCardValue = 0;   //the biggest card's value
+            int eliminatedPlayerCount = 0;  //counting how many players have been eliminated on a round. Will reset after every round
 
             currentButtonChoice.clear();
-
+            currentHandCardString = "";
             for (int i=0; i < playerArray[currentWinner].getCardSize();i++) {
-                currentHandCardString += ("\nCard " + (i+1) + ": " + cardDeck[playerArray[currentWinner].getCard(i)].printCardDetail());     //to print card details
+                currentHandCardString += ("\nCard " + (i+1) + ": " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(0) + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(1)
+                        + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(2)+ ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(3)
+                        + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(4) + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(5));     //to print card details
                 currentButtonChoice.add(cardDeck[playerArray[currentWinner].getCard(i)].getName());
             }
             tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentWinner].getName() + "\n\n" +
@@ -135,23 +152,24 @@ public class Javassignment {
             biggestCard = cardChoice;
             biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);
 
-            //testing purposes
+            /*testing purposes
             JOptionPane.showMessageDialog(null,cardChoice);
             JOptionPane.showMessageDialog(null, playerArray[currentWinner].getAllCard());
             JOptionPane.showMessageDialog(null, biggestCard + ", " + biggestCardValue);
-            //end of test
+            end of test*/
 
             boolean turnContinues = true;
 
 
             int currentPlayer = currentWinner;
             while (turnContinues){          // core gameplay. Loop while more than 1 is alive
+                System.out.println("Successful new turn for " + playerArray[currentPlayer].getName());
+
                 currentPlayer += 1;
                 boolean checkingPlayer = true;
                 while (checkingPlayer){                                             //making sure players arent already eliminated or out of list
                     if (currentPlayer == (playerNumber)){
-                        currentPlayer = 0;
-                        System.out.println("Back to 0");}
+                        currentPlayer = 0;}
                     else if (playerArray[currentPlayer].getEliminated())
                         currentPlayer += 1;
                     else
@@ -159,26 +177,91 @@ public class Javassignment {
                 }
                 currentButtonChoice.clear();
 
-                currentHandCardString = "";
+                currentHandCardString = "";                                             //reading the player's hand card
                 for (int i=0; i < playerArray[currentPlayer].getCardSize();i++) {
-                    currentHandCardString += ("\nCard "+ (i+1) + ": " + cardDeck[playerArray[currentPlayer].getCard(i)].printCardDetail());     //to print card details
+                    currentHandCardString += ("\nCard "+ (i+1) + ": " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(0) + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(1)
+                            + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(2)+ ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(3)
+                            + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(4) + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(5)
+                            );     //to print card details
                     currentButtonChoice.add(cardDeck[playerArray[currentPlayer].getCard(i)].getName());
                 }
+                String skipturn = "Skip Turn";
+                currentButtonChoice.add(skipturn);       //add a skip button
 
                 JOptionPane.showMessageDialog(null, playerArray[currentPlayer].getName() + "'s turn.");
 
-                tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentPlayer].getName() + "\n\n" +
-                                "(Name,Hardness,Gravity,Cleavage,Crustal Abundance,Economical Value)\n" + currentHandCardString, "Input a card!",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, currentButtonChoice.toArray(), null);
-                // ^this one is to print the option pane and get input based on the position of the card^
-                cardChoice = playerArray[currentPlayer].chooseCard(tempCardChoice);
-                System.out.print("\n" + currentPlayer);
+                boolean repeatCardInput = true;
+                while (repeatCardInput) {
+
+                    tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentPlayer].getName() + "\n\n" +
+                                    "Current Trump Card: " + trumpList[trumpType-1] + "\nCurrent Card: " + cardDeck[biggestCard].getName() +
+                            "\nCurrent Card's Value: " + cardDeck[biggestCard].getCardAttributes(trumpType) + "\n\n(Name,Hardness,Gravity,Cleavage,Crustal Abundance,Economical Value)\n" + currentHandCardString, "Input a card!",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, currentButtonChoice.toArray(), null);
+                    // ^this one is to print the option pane and get input based on the position of the card^
+
+                    if (tempCardChoice == playerArray[currentPlayer].getCardSize()) {        //if the player chooses skip
+                        System.out.println("Running skip");
+                        playerArray[currentPlayer].setEliminated(true);                     //they are eliminated
+                        playerArray[currentPlayer].addCard(deckCode.get(0));                //and must draw a card
+                        System.out.println(playerArray[currentPlayer].getName() + " Draw " + cardDeck[deckCode.get(0)].getName());
+                        deckCode.remove(0);
+                        repeatCardInput = false;                                            //and they skip turn
+                        eliminatedPlayerCount += 1;                                         // +1 to eliminated player's counting
+                        System.out.println("Successful skip");
+
+                        if (deckCode.size() == 0){                                          //if deck is out of card
+                            turnContinues = false;                                          //end the turn
+                            gameContinue = false;                                           //end the game
+                            JOptionPane.showMessageDialog(null, "Whoops, deck is out of card. \n\nGame over!\nNobody wins!");
+                            System.out.println("Successful out-of-card situation");
+
+                        }
+                    }
+                    else {
+                        System.out.println("Running input");
+                        cardChoice = playerArray[currentPlayer].getCard(tempCardChoice); //get the card code based on the player's hand
+
+                        if (biggestCardValue < cardDeck[cardChoice].getCardAttributeValue(trumpType)) {     //if the value is valid
+                            cardChoice = playerArray[currentPlayer].chooseCard(tempCardChoice);             //get the card code based on the player's hand
+                            biggestCard = cardChoice;                                                       //change current biggest card to that card
+                            biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);      //and the value too
+                            repeatCardInput = false;                                                    //then exit loop
+
+                            if (playerArray[currentPlayer].getCardSize() == 0){
+                                gameContinue = false;
+                                JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentPlayer].getName());
+                            }
+
+                            System.out.println("Successful input");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Input, value must be bigger than current card!");  //if invalid, loop and ask again
+                            // System.out.println("Successful retry prompt");}
+                        }
+                    }
+
+                    }//end of card input loop
+
+                if (eliminatedPlayerCount == playerNumber-1){       //if everyone's alive but 1
+                    turnContinues = false;                          //end the round
+                    checkingPlayer = true;
+                    while (checkingPlayer){                                             //doing this again to get the next player's code
+                        if (currentPlayer == (playerNumber)){
+                            currentPlayer = 0;}
+                        else if (playerArray[currentPlayer].getEliminated())
+                            currentPlayer += 1;
+                        else
+                            checkingPlayer = false;
+                    }
+                    currentWinner = currentPlayer;                  //and the winner of this round is the next player!
+                    JOptionPane.showMessageDialog(null, "Everyone else skipped, the winner of this round is " +playerArray[currentPlayer].getName());
+                }
+
+                }//end of round loop
 
 
-        }
 
-
-        }
+        }//end of game loop
 
 
     }   //end of public static void
