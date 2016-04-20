@@ -52,3 +52,9 @@ Corundum,9,4.0,none,trace,moderate
 Cassiterite,7,7.1,1 good/1 poor,trace,high
 Gibbsite,3.5,2.4,1 perfect,low,high
 Goethite,5.5,4.3,1 perfect/1 good,moderate,moderate
+Geminologist,0,0,none,low,low
+Geophysicst,0,0,none,low,low
+Mineralogist,0,0,none,low,low
+Petrologist,0,0,none,low,low
+Miner,0,0,none,low,low
+The Geologist,0,0,none,low,low

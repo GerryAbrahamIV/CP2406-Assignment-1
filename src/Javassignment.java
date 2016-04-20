@@ -1,17 +1,13 @@
 import javax.swing.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Javassignment {
-
     public static void main(String[] args) {
-
         CardsAttribute[] cardDeck = new CardsAttribute[60];         //create a deck, 54 is the number of cards
 
         List<String> cardList = new ArrayList<>();                  //contains the lines of the card.txt
         ArrayList<Integer> deckCode = new ArrayList<>();     //the deck, contains card code from 0-53 so far
-
         //Start of file reading
         String file_name = "card.txt";
         try {
@@ -33,7 +29,6 @@ public class Javassignment {
                 cardDeck[i] = new CardsAttribute();                     //add cards as object
                 cardDeck[i].setCardDetails(cardLines[i]);               //set the card's line attributes inside the card
             }
-
             for (int i = 54; i<60;i++){
                 cardDeck[i].setTrumpName(trumpNameList[trumpCountUp]);
                 cardDeck[i].setTrumpDesc(", Changes trump category into " + trumpDescList[trumpCountUp] + ". Re-adds eliminated player too.");
@@ -49,7 +44,6 @@ public class Javassignment {
         long seed = System.nanoTime();
         Collections.shuffle(deckCode, new Random(seed));        //shuffles deck
 
-
         boolean playerLoop = true;
         int playerNumber = 0;
 
@@ -59,7 +53,6 @@ public class Javassignment {
                 playerLoop = false;
             else JOptionPane.showMessageDialog(null, "Wrong input");
         }
-
         Players[] playerArray = new Players[playerNumber];          //creating an array of players
 
         for (int i = 0; i<playerNumber; i++) {
@@ -67,14 +60,11 @@ public class Javassignment {
             int properInt = i + 1;                                  //Player [0] --> player 1, playerArray[1] --> Player 2 etc
             playerArray[i].setName("Player " + properInt);
 
-
             for (int o = 0; o < 8; o++) {
             playerArray[i].addCard(deckCode.get(0));
             deckCode.remove(0);
             }
         }
-
-
         //testing purpose, printing every cards in player's hand
 
         for (int i = 0; i < playerArray.length; i++) {                                                          //loop for the number of players
@@ -89,12 +79,11 @@ public class Javassignment {
             }
 
         }  //end of test
-
         //      finally start game here?
 
         boolean gameContinue = true;    //is the game still continuing?
         int currentWinner = 0;          //who was the last hand's winner? by default is Player 1 at first, which is playerArray[0]
-        String currentHandCardString = "";
+        String currentHandCardString;
         JOptionPane.showMessageDialog(null, "Game start! Player 1 goes first");
 
 
@@ -105,7 +94,6 @@ public class Javassignment {
             for (int i = 0; i < playerNumber;i++){
                 playerArray[i].setEliminated(false);        //making sure everyone is alive at the start of the round
             }
-
 /* just a reference for class methods:
     Methods for players in game:                        (i is the player's number minus 1. Player 1 is 0, Player 2 is 1 etc)
         playerArray[i].getName()                        return player's name in string
@@ -120,13 +108,12 @@ public class Javassignment {
 
         dictionary for type:  Hardness = 1,   Gravity = 2,    Cleavage = 3,   Crustal Abundance = 4,  Economic Value = 5
  */
-            int tempCardChoice = 0; //temporary storage on where the card in the hand is, NOT the card's code
-            int cardChoice = 0;     //get what the card's code is
-            int cardChoiceValue;    //the value of the chosen card
+            int tempCardChoice; //temporary storage on where the card in the hand is, NOT the card's code
+            int cardChoice;     //get what the card's code is
             String[] trumpList = {"Hardness", "Gravity", "Cleavage", "Crustal Abundance", "Economic Value"};
             int biggestCard;        //the biggest card's code
             int trumpType;          //the current card's trump type
-            double biggestCardValue = 0;   //the biggest card's value
+            double biggestCardValue;   //the biggest card's value
             int eliminatedPlayerCount = 0;  //counting how many players have been eliminated on a round. Will reset after every round
             boolean turnContinues = true;
 
@@ -171,7 +158,6 @@ public class Javassignment {
                     trumpType += 1;
                     JOptionPane.showMessageDialog(null, "You picked " + cardDeck[cardChoice].getTrumpName() + "! Now " +
                             "the trump attribute is " + trumpList[trumpType]);
-
                 }
                 else if (cardChoice == 55){                                             //if you choose Geophycisist and you have Magnetite
                     String[] yesNo = {"Yes","No"};
@@ -184,7 +170,6 @@ public class Javassignment {
                             playerArray[currentWinner].chooseCard(playerArray[currentWinner].getAllCard().indexOf(45));
                             JOptionPane.showMessageDialog(null, "Alright, you win the round!");
                         }
-
                     }
                     trumpType = cardDeck[cardChoice].getTrumpValue();
                 }
@@ -193,7 +178,6 @@ public class Javassignment {
                     JOptionPane.showMessageDialog(null, "You picked " + cardDeck[cardChoice].getTrumpName() + "! Now " +
                             "the trump attribute is " + trumpList[trumpType-1]);
                 }
-
             }
             //54 hardness, 55 gravity 45 magnetite, 56 cleavage, 57 crust.abun, 58 ecovalue, 59 choose
             /*testing purposes
@@ -201,7 +185,6 @@ public class Javassignment {
             JOptionPane.showMessageDialog(null, playerArray[currentWinner].getAllCard());
             JOptionPane.showMessageDialog(null, biggestCard + ", " + biggestCardValue);
             end of test*/
-
 
             int currentPlayer = currentWinner;
             while (turnContinues){          // core gameplay. Loop while more than 1 is alive
@@ -261,7 +244,6 @@ public class Javassignment {
                             gameContinue = false;                                           //end the game
                             JOptionPane.showMessageDialog(null, "Whoops, deck is out of card. \n\nGame over!\nNobody wins!");
                             System.out.println("Successful out-of-card situation");
-
                         }
                     }
                     else {
@@ -279,7 +261,6 @@ public class Javassignment {
                                     gameContinue = false;
                                     JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentPlayer].getName());
                                 }
-
                                 System.out.println("Successful input");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Invalid Input, value must be bigger than current card!");  //if invalid, loop and ask again
@@ -299,14 +280,13 @@ public class Javassignment {
                                 if (playerArray[currentPlayer].getAllCard().contains(45)){
                                     int magneInstaWin = JOptionPane.showOptionDialog(null, "You have Magnetite! Do you want to throw" +
                                             " it in together to instantly win the round?", "Magnetite detected!",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,null,yesNo,null);
-                                    if (magneInstaWin == 1){JOptionPane.showMessageDialog(null,"Alright, moving on.");}
-                                    else {
+                                    if (magneInstaWin == 1){JOptionPane.showMessageDialog(null,"Alright, moving on.");} //if player choose not to throw magnetite
+                                    else {                                                                              //if player choose to throw magnetite
                                         turnContinues = false;
                                         playerArray[currentPlayer].chooseCard(playerArray[currentWinner].getAllCard().indexOf(45));
-                                        JOptionPane.showMessageDialog(null, "Alright, you win the round!");
+                                        JOptionPane.showMessageDialog(null, "Alright, you win the round!");             //instawin
                                         currentWinner = currentPlayer;
                                     }
-
                                 }
                                 trumpType = cardDeck[cardChoice].getTrumpValue();
                             }
@@ -322,11 +302,9 @@ public class Javassignment {
                             for (int i = 0; i < playerNumber; i++){         //get everyone to be alive again after picking supertrump card
                                 playerArray[i].setEliminated(false);
                             }
-                            eliminatedPlayerCount = 0;
+                            eliminatedPlayerCount = 0;                      //reset 'alive' counter
                         }
-
                     }
-
                     }//end of card input loop
 
                 if (eliminatedPlayerCount == playerNumber-1){       //if everyone's alive but 1
@@ -343,13 +321,7 @@ public class Javassignment {
                     currentWinner = currentPlayer;                  //and the winner of this round is the next player!
                     JOptionPane.showMessageDialog(null, "Everyone else skipped, the winner of this round is " +playerArray[currentPlayer].getName());
                 }
-
                 }//end of round loop
-
-
-
         }//end of game loop
-
-
     }   //end of public static void
 }       //end of class

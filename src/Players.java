@@ -31,7 +31,6 @@ public class Players {
     }
 
     public Integer getCard(int cardPlace){  //return a specific card by inputting the specific card's placement
-
         return (this.handCard.get(cardPlace));
     }
 

@@ -93,6 +93,32 @@ public class CardsAttribute {
         String currentCardStat[] = this.cardLine.split(",");
         return currentCardStat[0];
     }
+    private String trumpDesc;
+    private String trumpName;
+    private int trumpValue;
+
+    public void setTrumpDesc(String trumpDescadd){
+        this.trumpDesc = trumpDescadd;
+    }
+
+    public String getTrumpDesc(){
+        return trumpDesc;
+    }
+
+    public void setTrumpName(String trumpName){
+        this.trumpName = trumpName;
+    }
+    public String getTrumpName(){
+        return this.trumpName;
+    }
+
+    public void setTrumpValue(int trumpValue){
+        this.trumpValue = trumpValue;
+    }
+    public int getTrumpValue(){
+        return this.trumpValue;
+    }
+
 }
 
 
