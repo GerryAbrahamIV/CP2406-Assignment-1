@@ -51,6 +51,4 @@ public class Players {
     public boolean getEliminated(){                 //checks if the player already cannot go anymore
         return this.eliminated;
     }
-
-
 }

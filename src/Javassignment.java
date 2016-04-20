@@ -20,9 +20,6 @@ public class Javassignment {
             {
                 String currentCardStat[] = cardLines[i].split(",");     //
                 // Name = 0,    Hardness = 1,   Gravity = 2,    Cleavage = 3,   Crustal Abundance = 4,  EcoValue = 5
-                System.out.println("Name: " + currentCardStat[0] + ", Hardness: " + currentCardStat[1] + ", Gravity: " + currentCardStat[2]+ ", Cleavage: " + currentCardStat[3]
-                    + ", Crustal Abundance: " + currentCardStat[4] + ", Economic Value: " + currentCardStat[5]); //testing
-
                 cardList.add(cardLines[i]);
                 deckCode.add(i);
 
@@ -65,20 +62,6 @@ public class Javassignment {
             deckCode.remove(0);
             }
         }
-        //testing purpose, printing every cards in player's hand
-
-        for (int i = 0; i < playerArray.length; i++) {                                                          //loop for the number of players
-            System.out.println("\n\n" + playerArray[i].getName());                                              //print player name
-            System.out.println(playerArray[i].getAllCard());                                                    //print all handcard's code
-            for (int o = 0; o < playerArray[i].getAllCard().size(); o++){                                       //loop for the number of cards in hand
-                System.out.print("\n" + playerArray[i].getCard(o));                                             //print the card's code one by one
-                System.out.print("  " + cardDeck[playerArray[i].getCard(o)].printCardDetail() + "  ");          //print the card detail line
-                for (int p = 1; p <= 5;p++) {                                                                   //loop from 1 to 5, from hardness to economic value
-                    System.out.print("  " + cardDeck[playerArray[i].getCard(o)].getCardAttributeValue(p));      //print the value of the card, one by one
-                }
-            }
-
-        }  //end of test
         //      finally start game here?
 
         boolean gameContinue = true;    //is the game still continuing?
@@ -94,20 +77,6 @@ public class Javassignment {
             for (int i = 0; i < playerNumber;i++){
                 playerArray[i].setEliminated(false);        //making sure everyone is alive at the start of the round
             }
-/* just a reference for class methods:
-    Methods for players in game:                        (i is the player's number minus 1. Player 1 is 0, Player 2 is 1 etc)
-        playerArray[i].getName()                        return player's name in string
-        playerArray[i].addCard(int cardCode)            will add a card into the player's hand. The input is the card code. Get the card code from deck class
-        playerArray[i].getAllCard()                     will return an arraylist of the CODE of the cards in player's hand
-        playerArray[i].getCard(int cardPlace)           will return a card's CODE based on the position of the card. Eg: [1 ,2 ,3], input 0 and you get 1
-        playerArray[i].chooseCard(int cardPlace)        is the same as getCard, but it will also REMOVE the card from the player's hand
-    Methods for card deck in game:                      (i is the card's code. The first card is 0, and minus the supertrump, last is 53)
-        cardDeck[i].printCardDetail()                   will return a line of the card's details. eg: 0 --> "Quartz,7,2.65,poor/none,high,moderate"
-        cardDeck[i].getCardAttributes(int Type)         will return the STRING value of a certain attribute based on the line, NOT the numeric value or the comparable value
-        cardDeck[i].getCardAttributeValue(int Type)     will return the DOUBLE VALUE of a certain att based on the line.
-
-        dictionary for type:  Hardness = 1,   Gravity = 2,    Cleavage = 3,   Crustal Abundance = 4,  Economic Value = 5
- */
             int tempCardChoice; //temporary storage on where the card in the hand is, NOT the card's code
             int cardChoice;     //get what the card's code is
             String[] trumpList = {"Hardness", "Gravity", "Cleavage", "Crustal Abundance", "Economic Value"};
@@ -122,14 +91,12 @@ public class Javassignment {
             //54 hardness, 55 gravity magnetite, 56 cleavage, 57 crust.abun, 58 ecovalue, 59 choose
             for (int i=0; i < playerArray[currentWinner].getCardSize();i++) {                                       //setting what will be shown to player
                 if (playerArray[currentWinner].getCard(i) < 54) {               //if it's not a supertrump card
-                    System.out.println("Cardcheck, Not Supertrump");
                     currentHandCardString += ("\nCard " + (i + 1) + ": " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(0) + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(1)
                             + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(2) + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(3)
                             + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(4) + ", " + cardDeck[playerArray[currentWinner].getCard(i)].getCardAttributes(5));     //to print card details
                     currentButtonChoice.add(cardDeck[playerArray[currentWinner].getCard(i)].getName());
                 }
                 else{                   //if it's a supertrump card
-                    System.out.println("Cardcheck, Supertrump");
                     currentHandCardString += ("\nCard " + (i + 1) + ": " + cardDeck[playerArray[currentWinner].getCard(i)].getTrumpName() + cardDeck[playerArray[currentWinner].getCard(i)].getTrumpDesc());
                     currentButtonChoice.add(cardDeck[playerArray[currentWinner].getCard(i)].getTrumpName());
                 }
@@ -143,14 +110,12 @@ public class Javassignment {
 
             biggestCard = cardChoice;
             if (cardChoice < 54) {
-                System.out.println("Not Supertrump");
                 trumpType = JOptionPane.showOptionDialog(null, cardDeck[cardChoice].printCardDetail() +
                         "\nPick a Trump type",  "Pick a Trump type", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, trumpList, trumpList[0]);
                 trumpType += 1;
                 biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);      //if it's not supertrump
             }
             else {
-                System.out.println("Supertrump");
                 biggestCardValue = 0;                                                           //if it's a supertrump
                 if (cardChoice ==59) {
                     trumpType = JOptionPane.showOptionDialog(null, "You picked Geologist! Pick a trump type! ", "Input a trump type!",
@@ -180,12 +145,6 @@ public class Javassignment {
                 }
             }
             //54 hardness, 55 gravity 45 magnetite, 56 cleavage, 57 crust.abun, 58 ecovalue, 59 choose
-            /*testing purposes
-            JOptionPane.showMessageDialog(null,cardChoice);
-            JOptionPane.showMessageDialog(null, playerArray[currentWinner].getAllCard());
-            JOptionPane.showMessageDialog(null, biggestCard + ", " + biggestCardValue);
-            end of test*/
-
             int currentPlayer = currentWinner;
             while (turnContinues){          // core gameplay. Loop while more than 1 is alive
                 currentPlayer += 1;
@@ -198,20 +157,17 @@ public class Javassignment {
                     else
                         checkingPlayer = false;
                 }
-                System.out.println("Successful new turn for " + playerArray[currentPlayer].getName());
 
                 currentButtonChoice.clear();
                 currentHandCardString = "";                                             //reading the player's hand card
                 for (int i=0; i < playerArray[currentPlayer].getCardSize();i++) {
                     if (playerArray[currentPlayer].getCard(i) < 54) {               //if it's not a supertrump card
-                        System.out.println("Cardcheck, Not Supertrump");
                         currentHandCardString += ("\nCard " + (i + 1) + ": " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(0) + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(1)
                                 + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(2) + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(3)
                                 + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(4) + ", " + cardDeck[playerArray[currentPlayer].getCard(i)].getCardAttributes(5)
                         );     //to print card details
                         currentButtonChoice.add(cardDeck[playerArray[currentPlayer].getCard(i)].getName());
                     } else {                   //if it's a supertrump card
-                        System.out.println("Cardcheck, Supertrump");
                         currentHandCardString += ("\nCard " + (i + 1) + ": " + cardDeck[playerArray[currentPlayer].getCard(i)].getTrumpName() + cardDeck[playerArray[currentPlayer].getCard(i)].getTrumpDesc());
                         currentButtonChoice.add(cardDeck[playerArray[currentPlayer].getCard(i)].getTrumpName());
                     }
@@ -230,28 +186,22 @@ public class Javassignment {
                     // ^this one is to print the option pane and get input based on the position of the card^
 
                     if (tempCardChoice == playerArray[currentPlayer].getCardSize()) {        //if the player chooses skip
-                        System.out.println("Running skip");
                         playerArray[currentPlayer].setEliminated(true);                     //they are eliminated
                         playerArray[currentPlayer].addCard(deckCode.get(0));                //and must draw a card
-                        System.out.println(playerArray[currentPlayer].getName() + " Draw " + cardDeck[deckCode.get(0)].getName());
                         deckCode.remove(0);
                         repeatCardInput = false;                                            //and they skip turn
                         eliminatedPlayerCount += 1;                                         // +1 to eliminated player's counting
-                        System.out.println("Successful skip");
 
                         if (deckCode.size() == 0){                                          //if deck is out of card
                             turnContinues = false;                                          //end the turn
                             gameContinue = false;                                           //end the game
                             JOptionPane.showMessageDialog(null, "Whoops, deck is out of card. \n\nGame over!\nNobody wins!");
-                            System.out.println("Successful out-of-card situation");
                         }
                     }
                     else {
-                        System.out.println("Running input");
                         cardChoice = playerArray[currentPlayer].getCard(tempCardChoice); //get the card code based on the player's hand
                         if (cardChoice < 54) {                                                                  //if it's not supertrump
                             if (biggestCardValue < cardDeck[cardChoice].getCardAttributeValue(trumpType)) {     //if the value is valid
-                                System.out.println("Picked non-supertrump");
                                 cardChoice = playerArray[currentPlayer].chooseCard(tempCardChoice);             //get the card code based on the player's hand
                                 biggestCard = cardChoice;                                                       //change current biggest card to that card
                                 biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);      //and the value too
@@ -261,14 +211,11 @@ public class Javassignment {
                                     gameContinue = false;
                                     JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentPlayer].getName());
                                 }
-                                System.out.println("Successful input");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Invalid Input, value must be bigger than current card!");  //if invalid, loop and ask again
-                                // System.out.println("Successful retry prompt");}
                             }
                         }
-                        else{
-                            System.out.println("Picked Supertrump");                                //if they pick supertrump
+                        else{                             //if they pick supertrump
                             cardChoice = playerArray[currentPlayer].chooseCard(tempCardChoice);
                             if (cardChoice ==59) {                                                  //specifically Geologist
                                 trumpType = JOptionPane.showOptionDialog(null, "You picked Geologist! Pick a trump type! ", "Input a trump type!",
