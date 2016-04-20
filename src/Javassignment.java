@@ -144,6 +144,12 @@ public class Javassignment {
                             "the trump attribute is " + trumpList[trumpType-1]);
                 }
             }
+            if (playerArray[currentWinner].getCardSize() == 0) {
+                turnContinues = false;
+                gameContinue = false;
+                JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentWinner].getName());
+            }
+
             //54 hardness, 55 gravity 45 magnetite, 56 cleavage, 57 crust.abun, 58 ecovalue, 59 choose
             int currentPlayer = currentWinner;
             while (turnContinues){          // core gameplay. Loop while more than 1 is alive
@@ -207,12 +213,8 @@ public class Javassignment {
                                 biggestCard = cardChoice;                                                       //change current biggest card to that card
                                 biggestCardValue = cardDeck[biggestCard].getCardAttributeValue(trumpType);      //and the value too
                                 repeatCardInput = false;                                                    //then exit loop
-
-                                if (playerArray[currentPlayer].getCardSize() == 0) {
-                                    gameContinue = false;
-                                    JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentPlayer].getName());
-                                }
-                            } else {
+                            }
+                            else {
                                 JOptionPane.showMessageDialog(null, "Invalid Input, value must be bigger than current card!");  //if invalid, loop and ask again
                             }
                         }
@@ -252,6 +254,11 @@ public class Javassignment {
                             }
                             eliminatedPlayerCount = 0;                      //reset 'alive' counter
                         }//end of supertrump pick
+                        if (playerArray[currentPlayer].getCardSize() == 0) {
+                            turnContinues = false;
+                            gameContinue = false;
+                            JOptionPane.showMessageDialog(null, "You got no cards left, you win the game! The winner is " + playerArray[currentPlayer].getName());
+                        }
                     }
                     }//end of card input loop
 
