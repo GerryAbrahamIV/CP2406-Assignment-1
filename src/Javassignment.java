@@ -176,7 +176,7 @@ public class Javassignment {
                 currentButtonChoice.add(skipturn);       //add a skip button
 
                 JOptionPane.showMessageDialog(null, playerArray[currentPlayer].getName() + "'s turn.");
-
+                int tempBiggestCard = biggestCard;
                 boolean repeatCardInput = true;
                 while (repeatCardInput) {
                     tempCardChoice = JOptionPane.showOptionDialog(null, playerArray[currentPlayer].getName() + "\n\n" +
@@ -187,6 +187,7 @@ public class Javassignment {
 
                     if (tempCardChoice == playerArray[currentPlayer].getCardSize()) {        //if the player chooses skip
                         playerArray[currentPlayer].setEliminated(true);                     //they are eliminated
+                        JOptionPane.showMessageDialog(null, "Skipped turn, you draw a card: " + cardDeck[deckCode.get(0)].getName());
                         playerArray[currentPlayer].addCard(deckCode.get(0));                //and must draw a card
                         deckCode.remove(0);
                         repeatCardInput = false;                                            //and they skip turn
@@ -243,14 +244,14 @@ public class Javassignment {
 
                             JOptionPane.showMessageDialog(null, "You picked " + cardDeck[cardChoice].getTrumpName() + "! Now " +
                                     "the trump attribute is " + trumpList[trumpType-1]);
-                            biggestCard = cardChoice;
-                            biggestCardValue = 0;
+                            biggestCardValue = cardDeck[tempBiggestCard].getCardAttributeValue(trumpType);
+
                             repeatCardInput = false;
                             for (int i = 0; i < playerNumber; i++){         //get everyone to be alive again after picking supertrump card
                                 playerArray[i].setEliminated(false);
                             }
                             eliminatedPlayerCount = 0;                      //reset 'alive' counter
-                        }
+                        }//end of supertrump pick
                     }
                     }//end of card input loop
 
